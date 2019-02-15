@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnLoadXml1 = new System.Windows.Forms.Button();
             this.tvwLeft = new System.Windows.Forms.TreeView();
             this.btnLoadXml2 = new System.Windows.Forms.Button();
             this.tvwRight = new System.Windows.Forms.TreeView();
+            this.imlImages = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -76,8 +78,11 @@
             // tvwLeft
             // 
             this.tvwLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvwLeft.ImageIndex = 0;
+            this.tvwLeft.ImageList = this.imlImages;
             this.tvwLeft.Location = new System.Drawing.Point(0, 0);
             this.tvwLeft.Name = "tvwLeft";
+            this.tvwLeft.SelectedImageIndex = 0;
             this.tvwLeft.Size = new System.Drawing.Size(748, 828);
             this.tvwLeft.TabIndex = 2;
             this.tvwLeft.Visible = false;
@@ -99,20 +104,31 @@
             // tvwRight
             // 
             this.tvwRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvwRight.ImageIndex = 0;
+            this.tvwRight.ImageList = this.imlImages;
             this.tvwRight.Location = new System.Drawing.Point(0, 0);
             this.tvwRight.Name = "tvwRight";
+            this.tvwRight.SelectedImageIndex = 0;
             this.tvwRight.Size = new System.Drawing.Size(790, 828);
             this.tvwRight.TabIndex = 2;
             this.tvwRight.Visible = false;
             // 
+            // imlImages
+            // 
+            this.imlImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imlImages.ImageStream")));
+            this.imlImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.imlImages.Images.SetKeyName(0, "attr");
+            this.imlImages.Images.SetKeyName(1, "element");
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1542, 828);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Xml Differ";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -129,6 +145,7 @@
         private System.Windows.Forms.Button btnLoadXml2;
         private System.Windows.Forms.TreeView tvwLeft;
         private System.Windows.Forms.TreeView tvwRight;
+        private System.Windows.Forms.ImageList imlImages;
     }
 }
 

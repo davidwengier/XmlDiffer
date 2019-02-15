@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace XmlDiffer
 {
@@ -46,10 +47,16 @@ namespace XmlDiffer
             }
 
             tvw.Visible = true;
-
+            tvw.Tag = null;
             var loader = new XmlLoader();
             loader.Load(fileName);
             loader.Display(tvw);
+            tvw.Tag = loader.Document;
+            if (tvwLeft.Tag != null && tvwRight.Tag != null)
+            {
+                var comparer = new XmlComparer();
+                comparer.Compare(tvwLeft, tvwLeft.Tag as XmlDocument, tvwRight, tvwRight.Tag as XmlDocument);
+            }
         }
     }
 }
