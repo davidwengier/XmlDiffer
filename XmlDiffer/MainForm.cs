@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -13,10 +7,12 @@ namespace XmlDiffer
 {
     public partial class MainForm : Form
     {
+#nullable disable
         public MainForm()
         {
             InitializeComponent();
         }
+#nullable enable
 
         private void BtnLoadXml1_Click(object sender, EventArgs e)
         {
@@ -48,15 +44,17 @@ namespace XmlDiffer
 
             tvw.Visible = true;
             tvw.Tag = null;
-            var loader = new XmlLoader();
-            loader.Load(fileName);
-            loader.Display(tvw);
-            tvw.Tag = loader.Document;
-            if (tvwLeft.Tag != null && tvwRight.Tag != null)
+            tvw.BeginUpdate();
+            tvw.Nodes.Clear();
+            var loader = new XmlLoader(fileName, new WinFormsTreeProvider(tvw));
+            tvw.EndUpdate();
+            tvw.Tag = loader;
+            if (tvwLeft.Tag is XmlLoader loaderLeft && tvwRight.Tag is XmlLoader loaderRight)
             {
                 var comparer = new XmlComparer();
-                comparer.Compare(tvwLeft, tvwLeft.Tag as XmlDocument, tvwRight, tvwRight.Tag as XmlDocument);
+                comparer.Compare(loaderLeft.RootElement, loaderLeft.NodeMappings, loaderRight.RootElement, loaderRight.NodeMappings);
             }
         }
     }
 }
+
