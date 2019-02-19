@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -46,7 +47,11 @@ namespace XmlDiffer
             tvw.Tag = null;
             tvw.BeginUpdate();
             tvw.Nodes.Clear();
-            var loader = new XmlLoader(fileName, new WinFormsTreeProvider(tvw));
+
+            using var stream = File.OpenRead(fileName);
+            using var reader = new StreamReader(stream);
+            var loader = new XmlLoader(reader, new WinFormsTreeProvider(tvw));
+
             tvw.EndUpdate();
             tvw.Tag = loader;
             if (tvwLeft.Tag is XmlLoader loaderLeft && tvwRight.Tag is XmlLoader loaderRight)

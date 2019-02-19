@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,10 +16,10 @@ namespace XmlDiffer
 
         public XmlNode RootElement { get; internal set; }
 
-        public XmlLoader(string fileName, ITreeProvider tvw)
+        public XmlLoader(TextReader reader, ITreeProvider tvw)
         {
             var doc = new XmlDocument { XmlResolver = null };
-            doc.Load(fileName);
+            doc.Load(reader);
 
             this.RootElement = doc.DocumentElement;
             AddNode(tvw, null, doc.DocumentElement);
