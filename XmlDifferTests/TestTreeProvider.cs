@@ -9,7 +9,7 @@ namespace XmlDifferTests
     {
         public List<TestTreeNodeWrapper> Attributes { get; } = new List<TestTreeNodeWrapper>();
         public List<TestTreeNodeWrapper> Elements { get; } = new List<TestTreeNodeWrapper>();
-        public bool HasDifferences => this.Elements.Any(n => n.HasDifference);
+        public bool HasDifferences => this.Elements.Any(n => n.HasDifference) || this.Attributes.Any(n => n.HasDifference);
 
         public ITreeNode AddAttribute(ITreeNode item, string text)
         {

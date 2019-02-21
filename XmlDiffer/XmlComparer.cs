@@ -11,6 +11,7 @@ namespace XmlDiffer
     public class XmlComparer
     {
         private readonly HashSet<XmlNode> _seenNodes = new HashSet<XmlNode>();
+        private readonly HashSet<XmlNode> _newLeftNodes = new HashSet<XmlNode>();
 
         public void Compare(XmlNode xmlNode1, Dictionary<XmlNode, ITreeNode> xmlLeft, XmlNode xmlNode2, Dictionary<XmlNode, ITreeNode> xmlRight)
         {
@@ -33,12 +34,11 @@ namespace XmlDiffer
                 var other = AggressivelyFindNode(node, xmlNodes2, i);
                 if (other == null)
                 {
-                    xmlLeft[xmlNodes1[i]].Color = Color.Green;
-                    break;
+                    xmlLeft[node].Color = Color.Green;
                 }
                 else
                 {
-                    Compare(xmlNodes1[i], xmlLeft, xmlNodes2[i], xmlRight);
+                    Compare(node, xmlLeft, other, xmlRight);
                 }
             }
 
@@ -62,10 +62,6 @@ namespace XmlDiffer
                 {
                     continue;
                 }
-                if (other.Attributes.Count != node.Attributes.Count)
-                {
-                    continue;
-                }
 
                 bool allMatch = true;
                 foreach (XmlAttribute attr in node.Attributes)
@@ -76,9 +72,15 @@ namespace XmlDiffer
                         allMatch = false;
                         break;
                     }
+                    if (!attr.Value.Equals(otherAttr.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        allMatch = false;
+                        break;
+                    }
                 }
-                if (allMatch)
+                if (allMatch && other.Attributes.Count == node.Attributes.Count)
                 {
+                    _seenNodes.Add(other);
                     return other;
                 }
                 else
@@ -95,18 +97,6 @@ namespace XmlDiffer
             {
                 _seenNodes.Add(imperfectMatch);
                 return imperfectMatch;
-            }
-
-
-            while (i < xmlNodes2.Count)
-            {
-                var child = xmlNodes2[i];
-                if (_seenNodes.Contains(child))
-                {
-                    _seenNodes.Add(child);
-                    return child;
-                }
-                i++;
             }
 
             return null;
